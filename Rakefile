@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 require 'rake/testtask'
+<<<<<<< HEAD
 require './require_app'
+=======
+>>>>>>> 49d6782 (Uses relational database)
 
 task :default => :spec
 
@@ -75,4 +78,7 @@ namespace :db do
     FileUtils.rm(db_filename)
     puts "Deleted #{db_filename}"
   end
+
+  desc 'Delete and migrate again'
+  task reset: [:drop, :migrate]
 end
