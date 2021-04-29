@@ -8,11 +8,7 @@ gem 'puma', '~>5'
 gem 'roda', '~>3'
 
 # Configuration
-<<<<<<< HEAD
 gem 'figaro', '~>1'
-=======
-gem 'figaro'
->>>>>>> 49d6782 (Uses relational database)
 gem 'rake'
 
 # Security
