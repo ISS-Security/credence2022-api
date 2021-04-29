@@ -89,7 +89,11 @@ module Credence
             routing.halt 400, { message: 'Illegal Attributes' }.to_json
           rescue StandardError => e
             Api.logger.error "UNKOWN ERROR: #{e.message}"
+<<<<<<< HEAD
             routing.halt 500, { message: 'Unknown server error' }.to_json
+=======
+            routing.halt 500, { message: "Unknown server error" }.to_json
+>>>>>>> e4faaca (Hardens database and secures configuration)
           end
         end
       end

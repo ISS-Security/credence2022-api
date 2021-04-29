@@ -5,7 +5,11 @@ AllCops:
   TargetRubyVersion: 3.1
   NewCops: enable         # enable new upcoming cops for rubocop
   Exclude:
+<<<<<<< HEAD
     - _snippets/**/*
+=======
+    - _snippets/*
+>>>>>>> e4faaca (Hardens database and secures configuration)
 
 # ignore block length where unavoidable (e.g., framework requires it)
 Metrics/BlockLength:
