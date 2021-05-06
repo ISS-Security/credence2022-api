@@ -53,9 +53,7 @@ def add_collaborators
   contrib_info.each do |contrib|
     proj = Credence::Project.first(name: contrib['proj_name'])
     contrib['collaborator_email'].each do |email|
-      Credence::AddCollaboratorToProject.call(
-        email:, project_id: proj.id
-      )
+      Credence::AddCollaboratorToProject.call(email:, project_id: proj.id)
     end
   end
 end
