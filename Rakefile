@@ -42,7 +42,7 @@ end
 
 namespace :db do
   task :load do
-    require_app(nil) # loads config code files only
+    require_app('models') # loads models only
     require 'sequel'
 
     Sequel.extension :migration
@@ -57,7 +57,7 @@ namespace :db do
 
   desc 'Destroy data in database; maintain tables'
   task :delete => :load do
-    Credence::Account.dataset.destroy
+    Credence::Project.dataset.destroy
   end
 
   desc 'Delete dev or test database file'
