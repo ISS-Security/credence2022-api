@@ -8,16 +8,6 @@ This branch (1_demo_db_vulnerabilities) allows mass assignment and SQL injection
 
 ### Mass assignment
 
-Conduct mass assignment in code:
-
-```ruby
-Project.create(
-    name: 'Future Project’,
-    repo_url: 'http://github.com/fakeproject’,
-    created_at: Time.new('1900-01-01')
-  )
-```
-
 Conduct mass assignment via POST request:
 
 ```ruby
@@ -27,19 +17,28 @@ $ rake console
 > post '/api/v1/projects', req_body, req_header
 ```
 
-### SQL Injection
-
-Intent of attack might be to cause controller with naked SQL code to 
-execute an SQL query as follows:
+Conduct mass assignment in code:
 
 ```ruby
-app.DB['SELECT * FROM projects WHERE id=1 or id=2'].all.to_json
+Project.create(
+    name: 'Future Project',
+    repo_url: 'http://github.com/fakeproject',
+    created_at: Time.new(1900, 01, 01)
+  )
 ```
+
+### SQL Injection
 
 Conduct SQL injection via GET request vector:
 
 ```bash
-GET http://localhost:9292/api/v1/projects/2%20or%20id%3D1
+http GET http://localhost:9292/api/v1/projects/2%20or%20id%3D1
+```
+
+Intent of attack is to cause code using naked SQL code to execute a maninpulated SQL query as follows:
+
+```ruby
+app.DB['SELECT * FROM projects WHERE id=1 or id=2'].all.to_json
 ```
 
 ## Routes
