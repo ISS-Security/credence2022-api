@@ -8,6 +8,7 @@ module Credence
   class Api < Roda
     plugin :halt
 
+    # rubocop:disable Metrics/BlockLength
     route do |routing|
       response['Content-Type'] = 'application/json'
 
@@ -88,10 +89,11 @@ module Credence
             routing.halt 400, { message: 'Illegal Attributes' }.to_json
           rescue StandardError => e
             Api.logger.error "UNKOWN ERROR: #{e.message}"
-            routing.halt 500, { message: "Unknown server error" }.to_json
+            routing.halt 500, { message: 'Unknown server error' }.to_json
           end
         end
       end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 end

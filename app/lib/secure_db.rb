@@ -13,20 +13,17 @@ class SecureDB
     Base64.strict_encode64 key
   end
 
-  def self.key
-    return @key if @key
+  def self.setup(base_key)
+    raise NoDbKeyError unless base_key
 
-    db_key = ENV.delete('DB_KEY')
-    raise NoDbKeyError unless db_key
-
-    @key = Base64.strict_decode64(db_key)
+    @key = Base64.strict_decode64(base_key)
   end
 
   # Encrypt or else return nil if data is nil
   def self.encrypt(plaintext)
     return nil unless plaintext
 
-    simple_box = RbNaCl::SimpleBox.from_secret_key(key)
+    simple_box = RbNaCl::SimpleBox.from_secret_key(@key)
     ciphertext = simple_box.encrypt(plaintext)
     Base64.strict_encode64(ciphertext)
   end
@@ -36,7 +33,7 @@ class SecureDB
     return nil unless ciphertext64
 
     ciphertext = Base64.strict_decode64(ciphertext64)
-    simple_box = RbNaCl::SimpleBox.from_secret_key(key)
-    simple_box.decrypt(ciphertext)
+    simple_box = RbNaCl::SimpleBox.from_secret_key(@key)
+    simple_box.decrypt(ciphertext).force_encoding(Encoding::UTF_8)
   end
 end

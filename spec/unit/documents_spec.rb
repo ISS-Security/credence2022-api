@@ -17,10 +17,10 @@ describe 'Test Document Handling' do
     new_doc = proj.add_document(doc_data)
 
     doc = Credence::Document.find(id: new_doc.id)
-    _(doc.filename).must_equal new_doc.filename
-    _(doc.relative_path).must_equal new_doc.relative_path
-    _(doc.description).must_equal new_doc.description
-    _(doc.content).must_equal new_doc.content
+    _(doc.filename).must_equal doc_data['filename']
+    _(doc.relative_path).must_equal doc_data['relative_path']
+    _(doc.description).must_equal doc_data['description']
+    _(doc.content).must_equal doc_data['content']
   end
 
   it 'SECURITY: should not use deterministic integers' do

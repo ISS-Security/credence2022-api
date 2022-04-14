@@ -11,22 +11,29 @@ module Credence
   class Api < Roda
     plugin :environments
 
-    # load config secrets into local environment variables (ENV)
-    Figaro.application = Figaro::Application.new(
-      environment: environment, # rubocop:disable Style/HashSyntax
-      path: File.expand_path('config/secrets.yml')
-    )
-    Figaro.load
-    def self.config() = Figaro.env
+    # rubocop:disable Lint/ConstantDefinitionInBlock
+    configure do
+      # load config secrets into local environment variables (ENV)
+      Figaro.application = Figaro::Application.new(
+        environment: environment, # rubocop:disable Style/HashSyntax
+        path: File.expand_path('config/secrets.yml')
+      )
+      Figaro.load
+      def self.config = Figaro.env
 
-    # Database Setup
-    db_url = ENV.delete('DATABASE_URL')
-    DB = Sequel.connect("#{db_url}?encoding=utf8")
-    def self.DB() = DB # rubocop:disable Naming/MethodName
+      # Database Setup
+      db_url = ENV.delete('DATABASE_URL')
+      DB = Sequel.connect("#{db_url}?encoding=utf8")
+      def self.DB = DB # rubocop:disable Naming/MethodName
 
-    # Logger setup
-    LOGGER = Logger.new($stderr)
-    def self.logger() = LOGGER
+      # Logger setup
+      LOGGER = Logger.new($stderr)
+      def self.logger = LOGGER
+
+      # Load crypto keys
+      SecureDB.setup(ENV.delete('DB_KEY'))
+    end
+    # rubocop:enable Lint/ConstantDefinitionInBlock
 
     configure :development, :test do
       require 'pry'

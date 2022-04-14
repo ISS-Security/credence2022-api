@@ -3,6 +3,7 @@
 require 'rake/testtask'
 require './require_app'
 
+# rubocop:disable Style/HashSyntax, Style/SymbolArray
 task :default => :spec
 
 desc 'Tests API specs only'
@@ -40,7 +41,7 @@ task :console => :print_env do
   sh 'pry -r ./spec/test_load_all'
 end
 
-namespace :db do
+namespace :db do # rubocop:disable Metrics/BlockLength
   task :load do
     require_app(nil) # load nothing by default
     require 'sequel'
@@ -75,9 +76,6 @@ namespace :db do
     FileUtils.rm(db_filename)
     puts "Deleted #{db_filename}"
   end
-
-  desc 'Delete and migrate again'
-  task reset: [:drop, :migrate]
 end
 
 namespace :newkey do
@@ -87,3 +85,4 @@ namespace :newkey do
     puts "DB_KEY: #{SecureDB.generate_key}"
   end
 end
+# rubocop:enable Style/HashSyntax, Style/SymbolArray
