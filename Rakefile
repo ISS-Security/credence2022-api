@@ -42,11 +42,15 @@ end
 
 namespace :db do
   task :load do
-    require_app('models') # loads models only
+    require_app(nil) # load nothing by default
     require 'sequel'
 
     Sequel.extension :migration
     @app = Credence::Api
+  end
+
+  task :load_models do
+    require_app('models')
   end
 
   desc 'Run migrations'
@@ -56,7 +60,7 @@ namespace :db do
   end
 
   desc 'Destroy data in database; maintain tables'
-  task :delete => :load do
+  task :delete => :load_models do
     Credence::Project.dataset.destroy
   end
 
